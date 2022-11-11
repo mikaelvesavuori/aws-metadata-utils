@@ -12,7 +12,7 @@
  * 3) set new one from AWS request ID;
  * else set it as empty.
  */
-export function produceCorrelationId(event: any, context: any): string {
+function produceCorrelationId(event: any, context: any): string {
   if (
     event &&
     event['detail'] &&
@@ -29,7 +29,7 @@ export function produceCorrelationId(event: any, context: any): string {
 /**
  * @description Set the AWS region.
  */
-export function produceRegion(context: any): string {
+function produceRegion(context: any): string {
   if (context && context['invokedFunctionArn']) return context['invokedFunctionArn'].split(':')[3];
   return process.env.AWS_REGION || '';
 }
@@ -37,14 +37,14 @@ export function produceRegion(context: any): string {
 /**
  * @description Set the AWS Lambda runtime.
  */
-export function produceRuntime(): string {
+function produceRuntime(): string {
   return process.env.AWS_EXECUTION_ENV || '';
 }
 
 /**
  * @description Set the AWS Lambda function name.
  */
-export function produceFunctionName(context: any): string {
+function produceFunctionName(context: any): string {
   if (context && context['functionName']) return context['functionName'];
   return process.env.AWS_LAMBDA_FUNCTION_NAME || '';
 }
@@ -52,7 +52,7 @@ export function produceFunctionName(context: any): string {
 /**
  * @description Set the AWS Lambda function memory size.
  */
-export function produceFunctionMemorySize(context: any): string {
+function produceFunctionMemorySize(context: any): string {
   if (context && context['memoryLimitInMB']) return context['memoryLimitInMB'];
   return process.env.AWS_LAMBDA_FUNCTION_MEMORY_SIZE || '';
 }
@@ -60,7 +60,7 @@ export function produceFunctionMemorySize(context: any): string {
 /**
  * @description Set the AWS Lambda function version.
  */
-export function produceFunctionVersion(context: any): string {
+function produceFunctionVersion(context: any): string {
   if (context && context['functionVersion']) return context['functionVersion'];
   return process.env.AWS_LAMBDA_FUNCTION_VERSION || '';
 }
@@ -68,7 +68,7 @@ export function produceFunctionVersion(context: any): string {
 /**
  * @description Set the resource from `path` (Lambda) or `detail-type` (EventBridge).
  */
-export function produceResource(event: any): string {
+function produceResource(event: any): string {
   if (event && event['detail-type']) return event['detail-type'];
   else if (event && event['path']) return event['path'];
   return '';
@@ -77,7 +77,7 @@ export function produceResource(event: any): string {
 /**
  * @description Set the active user in AWS Lambda scope.
  */
-export function produceUser(event: any): string {
+function produceUser(event: any): string {
   if (
     event &&
     event['requestContext'] &&
@@ -92,7 +92,7 @@ export function produceUser(event: any): string {
  * @description Set the current AWS stage.
  * @note Will be unknown in EventBridge case; use metadata object?
  */
-export function produceStage(event: any): string {
+function produceStage(event: any): string {
   if (event && event['requestContext'] && event['requestContext']['stage'])
     return event['requestContext']['stage'];
   return '';
@@ -101,7 +101,7 @@ export function produceStage(event: any): string {
 /**
  * @description Set the viewer country (via CloudFront, presumably).
  */
-export function produceViewerCountry(event: any): string {
+function produceViewerCountry(event: any): string {
   if (event && event['headers'] && event['headers']['CloudFront-Viewer-Country'])
     return event['headers']['CloudFront-Viewer-Country'];
   return '';
@@ -110,7 +110,7 @@ export function produceViewerCountry(event: any): string {
 /**
  * @description Set the AWS account we are currently in scope of.
  */
-export function produceAccountId(event: any): string {
+function produceAccountId(event: any): string {
   // Typical Lambda case
   if (event && event['requestContext'] && event['requestContext']['accountId'])
     return event['requestContext']['accountId'];
@@ -124,7 +124,7 @@ export function produceAccountId(event: any): string {
  * @note Will be unknown in called service
  * @todo Remove?
  */
-export function produceTimestampRequest(event: any): string {
+function produceTimestampRequest(event: any): string {
   if (event && event['requestContext'] && event['requestContext']['requestTimeEpoch'])
     return event['requestContext']['requestTimeEpoch'].toString();
   return '';
@@ -133,7 +133,7 @@ export function produceTimestampRequest(event: any): string {
 /**
  * @description TODO
  */
-export function createDynamicMetadata(event: any, context: any): DynamicMetadata {
+export function getMetadata(event: any, context: any): DynamicMetadata {
   return {
     accountId: produceAccountId(event),
     correlationId: produceCorrelationId(event, context),
@@ -153,7 +153,7 @@ export function createDynamicMetadata(event: any, context: any): DynamicMetadata
 /**
  * @description TODO
  */
-export type DynamicMetadata = {
+type DynamicMetadata = {
   /**
    * @description TODO
    */

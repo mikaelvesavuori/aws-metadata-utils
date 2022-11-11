@@ -2,20 +2,28 @@
 
 **`aws-metadata-utils` is a small utility library that helps you extract helpful metadata from your AWS `event` and `context` objects.**
 
-This library is what drives the majority of contextual metadata generated in [MikroLog](https://github.com/mikaelvesavuori/mikrolog), [MikroTrace](https://github.com/mikaelvesavuori/mikrotrace), and [MikroMetric](https://github.com/mikaelvesavuori/mikrometric) outputs.
+![Build Status](https://github.com/mikaelvesavuori/aws-metadata-utils/workflows/main/badge.svg)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mikaelvesavuori_aws-metadata-utils&metric=alert_status)](https://sonarcloud.io/dashboard?id=mikaelvesavuori_aws-metadata-utils)
+
+[![codecov](https://codecov.io/gh/mikaelvesavuori/aws-metadata-utils/branch/main/graph/badge.svg?token=S7D3RM9TO7)](https://codecov.io/gh/mikaelvesavuori/aws-metadata-utils)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/2393e9aaabf3fc2022ce/maintainability)](https://codeclimate.com/github/mikaelvesavuori/aws-metadata-utils/maintainability)
 
 ---
+
+This library is what drives the majority of contextual metadata generated in [aws-metadata-utils](https://github.com/mikaelvesavuori/aws-metadata-utils), [MikroTrace](https://github.com/mikaelvesavuori/mikrotrace), and [MikroMetric](https://github.com/mikaelvesavuori/mikrometric) outputs.
 
 ## Usage
 
 Here's an example of running `aws-metadata-utils` in AWS Lambda and just returning back the metadata.
 
 ```ts
-import { createDynamicMetadata } from 'aws-metadata-utils';
+import { getMetadata } from 'aws-metadata-utils';
 
 export async function handler(event: any, context: any) {
   // Pass in your AWS event and context objects, such as from API Gateway
-  const metadata = createDynamicMetadata(event, context);
+  const metadata = getMetadata(event, context);
 
   return {
     statusCode: 200,
@@ -49,7 +57,7 @@ Resulting in an object with the following shape:
 
 The dynamic metadata fields are picked up automatically if you pass them in during instantiation. Most of those metadata fields will relate to unique value types available in AWS, primarily Lambda.
 
-If these values are not available, they will be dropped at the time of log output. In effect, this means you won't have to deal with them (being empty or otherwise) if you use MikroLog in another type of context.
+If these values are not available, they will be dropped at the time of log output. In effect, this means you won't have to deal with them (being empty or otherwise) if you use aws-metadata-utils in another type of context.
 
 | Field                | Type   | Description                                               |
 | -------------------- | ------ | --------------------------------------------------------- |

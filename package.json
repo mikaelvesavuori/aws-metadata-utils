@@ -1,7 +1,7 @@
 {
   "name": "aws-metadata-utils",
   "description": "Small utility library that helps you extract helpful metadata from your AWS event and context objects",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Mikael Vesavuori",
   "license": "MIT",
   "main": "./lib/index.js",
