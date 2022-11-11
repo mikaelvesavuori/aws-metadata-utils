@@ -32,9 +32,9 @@ export async function handler(event: any, context: any) {
 }
 ```
 
-`aws-metadata-utils` will attempt to pick certain values.
+`aws-metadata-utils` will attempt to pick out various interesting details for you from the event and context objects, such as the function name, region, account ID, correlation ID (AWS request ID) and the stage that is used.
 
-Resulting in an object with the following shape:
+The result of the above example could result in an object with the following shape:
 
 ```json
 {
@@ -62,7 +62,7 @@ If these values are not available, they will be dropped at the time of log outpu
 | Field                | Type   | Description                                               |
 | -------------------- | ------ | --------------------------------------------------------- |
 | `accountId`          | string | The AWS account ID that the system is running in.         |
-| `correlationId`      | string | Correlation ID for this function call.                    |
+| `correlationId`      | string | Correlation ID (AWS request ID) for this function call.   |
 | `functionMemorySize` | string | Memory size of the current function.                      |
 | `functionName`       | string | The name of the function.                                 |
 | `functionVersion`    | string | The version of the function.                              |
@@ -71,5 +71,5 @@ If these values are not available, they will be dropped at the time of log outpu
 | `runtime`            | string | What runtime is used?                                     |
 | `stage`              | string | What AWS stage are we in?                                 |
 | `timestampRequest`   | string | Request time in Unix epoch of the incoming request.       |
-| `user`               | string | The user in this log context.                             |
+| `user`               | string | The user in this context.                                 |
 | `viewerCountry`      | string | Which country did AWS CloudFront infer the user to be in? |
