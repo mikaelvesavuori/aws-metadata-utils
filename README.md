@@ -2,7 +2,7 @@
 
 **`aws-metadata-utils` is a small utility library that helps you extract helpful metadata from your AWS `event` and `context` objects.**
 
-This library is what drives the majority of contextual metadata generated in [MikroLog](), [MikroTrace](), and [MikroMetric]() outputs.
+This library is what drives the majority of contextual metadata generated in [MikroLog](https://github.com/mikaelvesavuori/mikrolog), [MikroTrace](https://github.com/mikaelvesavuori/mikrotrace), and [MikroMetric](https://github.com/mikaelvesavuori/mikrometric) outputs.
 
 ---
 
