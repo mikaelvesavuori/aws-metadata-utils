@@ -5,12 +5,6 @@
 
 /**
  * @description Set correlation ID.
- *
- * Check first if this is:
- * 1) via event;
- * 2) via header (API);
- * 3) set new one from AWS request ID;
- * else set it as empty.
  */
 function produceCorrelationId(event: any, context: any): string {
   if (
@@ -129,7 +123,22 @@ function produceTimestampRequest(event: any): string {
 }
 
 /**
- * @description Get AWS metadata.
+ * @description Get correlation ID.
+ *
+ * Check first if this is:
+ * 1) via event (EventBridge: `event.detail.metadata.correlationId`);
+ * 2) via header (API Gateway: `event.headers.x-correlation-id`);
+ * 3) set new one from AWS request ID (`context.awsRequestId`);
+ * else set it as empty.
+ *
+ * @note Alias for unexported `productCorrelationId()`.
+ */
+export function getCorrelationId(event: any, context: any) {
+  return produceCorrelationId(event, context);
+}
+
+/**
+ * @description Get AWS metadata from AWS `event` and `context` objects.
  */
 export function getMetadata(event: any, context: any): DynamicMetadata {
   return {

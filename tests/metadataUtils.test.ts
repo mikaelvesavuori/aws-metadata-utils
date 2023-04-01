@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { getMetadata } from '../src';
+import { getMetadata, getCorrelationId } from '../src';
 
 import event from '../testdata/event.json';
 import context from '../testdata/context.json';
@@ -46,6 +46,14 @@ test.serial('It should return an empty string for correlation ID if it is not se
 test.serial('It should set correlation ID from AWS request ID', (t) => {
   const expected = '6c933bd2-9535-45a8-b09c-84d00b4f50cc';
   const response = getMetadata(event, context).correlationId;
+
+  t.is(response, expected);
+});
+
+test.serial('It should get correlation ID using `getCorrelationId()`', (t) => {
+  const expected = '6c933bd2-9535-45a8-b09c-84d00b4f50cc';
+
+  const response = getCorrelationId(event, context);
 
   t.is(response, expected);
 });

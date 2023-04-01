@@ -12,7 +12,7 @@
 
 ---
 
-This library is what drives the majority of contextual metadata generated in [aws-metadata-utils](https://github.com/mikaelvesavuori/aws-metadata-utils), [MikroTrace](https://github.com/mikaelvesavuori/mikrotrace), and [MikroMetric](https://github.com/mikaelvesavuori/mikrometric) outputs.
+This library is what drives the majority of contextual metadata generated in [aws-metadata-utils](https://github.com/mikaelvesavuori/aws-metadata-utils), [MikroLog](https://github.com/mikaelvesavuori/mikrolog), [MikroTrace](https://github.com/mikaelvesavuori/mikrotrace), and [MikroMetric](https://github.com/mikaelvesavuori/mikrometric) outputs.
 
 ## Usage
 
@@ -52,6 +52,32 @@ The result of the above example could result in an object with the following sha
   "viewerCountry": "SE"
 }
 ```
+
+## Usage: Getting the correlation ID
+
+You can also use `aws-metadata-utils` to _only_ get a correlation ID.
+
+```ts
+import { getCorrelationId } from 'aws-metadata-utils';
+
+export async function handler(event: any, context: any) {
+  // Pass in your AWS event and context objects, such as from API Gateway
+  const correlationId = getCorrelationId(event, context);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(correlationId)
+  };
+}
+```
+
+To get the correlation ID it first checks if an appropriate ID is passed:
+
+1. Via an event — EventBridge: `event.detail.metadata.correlationId`
+2. Via a header — API Gateway: `event.headers.x-correlation-id`
+3. Set new one from AWS request ID (`context.awsRequestId`)
+
+If none of the above match, set it as empty.
 
 ## Dynamic metadata
 
